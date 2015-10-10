@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 apt-get update
-apt-get upgrade
+apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates
 
 # Ensure Python3
@@ -21,12 +21,12 @@ limit_req_zone \$binary_remote_addr zone=clients:1m rate=75r/s;
 server {
     listen 80;
     server_name rotated8.net;
-    root /var/www/rotated8.net/public;
     client_max_body_size 1M;
     limit_req zone=clients burst=500 nodelay;
-    location / {
+    location / { try_files $uri @rotated8-dot-net; }
+    location @rotated8-dot-net {
         include uwsgi_params;
-        uwsgi_pass unix:/var/www/rotated8.net/site.sock;
+        uwsgi_pass unix:/tmp/uwsgi.sock;
     }
 }
 HereDoc

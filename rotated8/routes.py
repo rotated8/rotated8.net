@@ -1,4 +1,4 @@
-from site import app
+from rotated8 import app
 from flask import render_template
 import mgsv_names
 @app.route('/')
