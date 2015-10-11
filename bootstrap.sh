@@ -1,4 +1,6 @@
 #!/usr/bin/bash
+set -o errexit
+
 apt-get update
 apt-get upgrade -y
 apt-get install -y apt-transport-https ca-certificates
@@ -23,7 +25,7 @@ server {
     server_name rotated8.net;
     client_max_body_size 1M;
     limit_req zone=clients burst=500 nodelay;
-    location / { try_files $uri @rotated8-dot-net; }
+    location / { try_files \$uri @rotated8-dot-net; }
     location @rotated8-dot-net {
         include uwsgi_params;
         uwsgi_pass unix:/tmp/uwsgi.sock;
