@@ -1,4 +1,4 @@
 from flask import Flask
-app = Flask('rotated8-dot-net')
+app = Flask('rotated8')
 
 import rotated8.routes
